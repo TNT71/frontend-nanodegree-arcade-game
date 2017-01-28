@@ -1,6 +1,18 @@
-frontend-nanodegree-arcade-game
-===============================
+# Frogger Arcade Clone
 
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
+## To get started playing the game
+Simply open the ```index.html``` file in your browser
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+## Playing the game
+
+The objective is to reach the water.  You'll need to avoid getting hit by the enemy bugs.  When you get hit by an ememy bug you and the bugs are reset.
+If you make it to the water your position will be reset.
+
+### Movement
+Use the Up, Right, Down, and Left Arrow keys to move your character.
+
+### Scoring
+Every time you make it to the water you get five points.  Your position will also be reset to the original position when reaching the water.
+
+### Lives
+You have 5 lives.  Every time you get hit by a bug you lose a life.  The game is over when you run out of lives.
