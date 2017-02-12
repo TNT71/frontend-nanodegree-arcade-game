@@ -1,10 +1,13 @@
+'use strict';
+
 // Enemies our player must avoid.  The stepsize controls relative speed.
 // The direction controls horizontal direction.
+
 var Enemy = function(xpos, ypos, stepsize, direction) {
     this.x = xpos;
     this.y = ypos;
     this.stepsize = stepsize;
-    this.direction = direction
+    this.direction = direction;
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
@@ -36,10 +39,9 @@ Enemy.prototype.render = function() {
 };
 
 // Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
+// This class requires an update(), render() and a handleInput() method.
 
-var player = function() {
+var Player = function() {
     this.x = 202;
     this.y = 404;
     this.sprite = 'images/char-boy.png';
@@ -52,65 +54,65 @@ var player = function() {
 // col width is 101
 
 
-player.prototype.handleInput = function(event) {
+Player.prototype.handleInput = function(event) {
 
-    var rightLimit = 404;
-    var floor = 404;
-    var leftLimit = 0;
+    var RIGHT_LIMIT = 404;
+    var FLOOR = 404;
+    var LEFT_LIMIT = 0;
 
     // You can always go up subject to collison check in update and verification of reaching the water.
     if (event === "up") {
-        this.y -= 83
+        this.y -= 83;
     }
-    if (event === "down" && !(this.y === floor)) {
+    if (event === "down" && !(this.y === FLOOR)) {
         this.y += 83;
     }
-    if (event === "left" && !(this.x === leftLimit)) {
-        this.x -= 65;
+    if (event === "left" && !(this.x <= LEFT_LIMIT)) {
+        this.x -= 101;
 
     }
-    if (event === "right" && !(this.x === rightLimit)) {
-        this.x += 65;
+    if (event === "right" && !(this.x >= RIGHT_LIMIT)) {
+        this.x += 101;
     }
+
 };
 
-player.prototype.update = function() {
+Player.prototype.update = function() {
     this.checkCollision();
 };
 
 
-player.prototype.checkCollision = function() {
+Player.prototype.checkCollision = function() {
 
     var collide = false;
-
 
     // The player can only be at discrete y values.  So we only need to check for conflicts against bugs in the same row
     // I used the console to manaual move the bugs player and bugs towards each other until I figured out that the x coordinate of the
     // enemy and the player could be no closer than 80 pixels.
-    if (player.y === 404 || player.y === 321) { // player is in safe zone
+    if (this.y === 404 || this.y === 321) { // player is in safe zone
         return;
     }
-    if (player.y === 238) { // check for collision with enemeies in row 3
+    if (this.y === 238) { // check for collision with enemeies in row 3
         rowThree.forEach(function(en) {
-            if (Math.abs(en.x - player.x) < 80 || Math.abs(player.x - en.x) < 80) {
+            if (Math.abs(en.x - this.x) < 80 || Math.abs(this.x - en.x) < 80) {
                 collide = true;
             }
 
-        });
+        }.bind(this));
     }
-    if (player.y === 155) { // check for collision with enemies in row 2
+    if (this.y === 155) { // check for collision with enemies in row 2
         rowTwo.forEach(function(en) {
-            if (Math.abs(en.x - player.x) < 80 || Math.abs(player.x - en.x) < 80) {
+            if (Math.abs(en.x - this.x) < 80 || Math.abs(this.x - en.x) < 80) {
                 collide = true;
             }
-        });
+        }.bind(this));
     }
-    if (player.y === 72) { //check for collision with enemies in row 1
+    if (this.y === 72) { //check for collision with enemies in row 1
         rowOne.forEach(function(en) {
-            if (Math.abs(en.x - player.x) < 80 || Math.abs(player.x - en.x) < 80) {
+            if (Math.abs(en.x - this.x) < 80 || Math.abs(this.x - en.x) < 80) {
                 collide = true;
             }
-        });
+        }.bind(this));
     }
 
     if (collide) {
@@ -126,7 +128,7 @@ player.prototype.checkCollision = function() {
 
 };
 
-player.prototype.render = function() {
+Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     ctx.font = "20px Arial";
     ctx.clearRect(0, 0, 275, 50);
@@ -134,13 +136,12 @@ player.prototype.render = function() {
     ctx.fillText("LIVES: " + numLives, 150, 30);
 };
 
-player.prototype.reset = function() {
+Player.prototype.reset = function() {
     if (numLives === 0) {
         alert("GAME OVER!!!!.   SCORE: " + score);
         numLives = 5;
         score = 0;
     }
-
 
     this.x = 202;
     this.y = 404;
@@ -177,7 +178,7 @@ var allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7];
 var rowOne = [enemy4, enemy6];
 var rowTwo = [enemy1];
 var rowThree = [enemy2, enemy3, enemy5];
-var player = new player();
+var player = new Player();
 var numLives = 5;
 var score = 0;
 
